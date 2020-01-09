@@ -5,7 +5,11 @@ class Person
   
   def initialize(attributes = {})
     attributes.each do |key, value|
-      self.send(("#{key}="), value) if self.respond_to?("#{key}=")
+      unless self.respond_to?("#{key}=")
+        self.class.attr_accessor key
+      end
+      
+      self.send(("#{key}="), value)
     end
   end
 end
